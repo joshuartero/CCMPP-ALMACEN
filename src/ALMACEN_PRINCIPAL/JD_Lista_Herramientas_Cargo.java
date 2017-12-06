@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import net.sf.jasperreports.engine.JRException;
@@ -16,6 +18,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.swing.JRViewer;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -62,7 +65,6 @@ public class JD_Lista_Herramientas_Cargo extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -136,17 +138,6 @@ public class JD_Lista_Herramientas_Cargo extends javax.swing.JDialog {
             }
         });
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 214, Short.MAX_VALUE)
-        );
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -154,7 +145,6 @@ public class JD_Lista_Herramientas_Cargo extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 797, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
                         .addComponent(jButton1)
@@ -165,9 +155,7 @@ public class JD_Lista_Herramientas_Cargo extends javax.swing.JDialog {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -198,39 +186,39 @@ public class JD_Lista_Herramientas_Cargo extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        try{
-            //archivo jasper
-            URL  jasperUrl = this.getClass().getResource("/REPORTES/report1.jasper");
-            JasperReport report = (JasperReport) JRLoader.loadObject(jasperUrl);
-            //para los parametro
-            Map parametros = new HashMap(); 
-            parametros.clear();     
-            //Nuestro parametro se llama "pLastName"
-            parametros.put( "pLastName", jLabel1.getText().substring(23, 27) );                           
-            //agregamos los parametros y la conexion a la base de datos
-            JasperPrint jasperPrint = JasperFillManager.fillReport(report, parametros, con);            
-            //se crea el visor con el reporte
-            JRViewer jRViewer = new JRViewer(jasperPrint);      
-            //se elimina elementos del contenedor JPanel
-            jPanel2.removeAll();
-            //para el tamaño del reporte se agrega un BorderLayout
-            jPanel2.setLayout(new BorderLayout());        
-            jPanel2.add(jRViewer, BorderLayout.CENTER);
-            jRViewer.setVisible(true);            
-            jPanel2.repaint();       
-            jPanel2.revalidate();
-        } catch (JRException ex) {
-            System.err.println(ex.getMessage());
-        }
+//        JOptionPane.showMessageDialog(this, jLabel2.getText().substring(22) );
+        mostrarReporte("", "/REPORTES/report2.jasper");
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    void mostrarReporte(String title, String archivo)
+    {   try 
+        {   JDialog dialog = new JDialog(new JFrame(),title, true);
+            dialog.setSize(800,600);
+            dialog.setLocationRelativeTo(this);
+            URL  jasperUrl = this.getClass().getResource(archivo);
+            JasperReport report = (JasperReport) JRLoader.loadObject(jasperUrl);
+            Map parametros = new HashMap(); 
+            parametros.clear();     
+            parametros.put( "codigoCargo", jLabel3.getText().substring(18, 35) );
+            parametros.put( "codigoTrabajador", jLabel1.getText().substring(23, 27) );
+            parametros.put( "apellidosNombres", jLabel2.getText().substring(22) );
+            JasperPrint jasperPrint = JasperFillManager.fillReport(report, parametros, con);  
+            JRViewer jRViewer = new JRViewer(jasperPrint); 
+            
+            dialog.getContentPane().add(jRViewer);
+            dialog.setVisible(true);
+        } 
+        catch (Exception ex) 
+        {   JOptionPane.showMessageDialog(null, ex, "ERROR DE REPORTE "+ex.getMessage(), JOptionPane.ERROR_MESSAGE);
+        }           
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     public static javax.swing.JLabel jLabel1;
     public static javax.swing.JLabel jLabel2;
     public static javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;

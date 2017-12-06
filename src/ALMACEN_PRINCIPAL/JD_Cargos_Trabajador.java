@@ -190,9 +190,17 @@ public class JD_Cargos_Trabajador extends javax.swing.JDialog {
         jdc.jLabel2.setText(jLabel2.getText());
         jdc.setVisible(true);
         if(!jdc.isVisible())
+        {   limpiarTabla();
             cargarCargos(jLabel1.getText().substring(23, 27));
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    void limpiarTabla()
+    {   int a = jTable1.getRowCount()-1;
+        for (int i = a; i >= 0; i--)           
+            modelo.removeRow(jTable1.getRowCount()-1);        
+    }
+    
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         if(evt.getClickCount()==2)
         {   JD_Lista_Herramientas_Cargo jdc=new JD_Lista_Herramientas_Cargo(this,true);

@@ -1,13 +1,23 @@
 package ALMACEN_PRINCIPAL;
 
+import java.io.File;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
 
 /**
  *
@@ -29,8 +39,6 @@ public class JD_Cargo extends javax.swing.JDialog {
         setLocationRelativeTo(this);
         cargarHerramientas();
         setCodigoCargo();
-        
-        
     }
 
     void cargarHerramientas()
@@ -262,6 +270,11 @@ public class JD_Cargo extends javax.swing.JDialog {
         });
 
         jButton3.setText("Salir");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jLabel7.setFont(new java.awt.Font("Algerian", 0, 18)); // NOI18N
         jLabel7.setText("Codigo DE CARGO : ");
@@ -375,9 +388,9 @@ public class JD_Cargo extends javax.swing.JDialog {
         {   int opc=JOptionPane.showConfirmDialog(this, "Desea registrar este cargo ? ","CONFIRMAR REGISTRO DE CARGO",JOptionPane.YES_NO_OPTION);
             if(opc==JOptionPane.YES_OPTION)
             {   if(guardarEnBD())
-                {   //crearPDF
-                    //EnviarPorCorreo(PDF)
-                    dispose();
+                {   dispose();
+                    String rutaArchivo=crearPDF();
+                    enviarPorCorreo(rutaArchivo);
                 }
             }
         }
@@ -392,7 +405,7 @@ public class JD_Cargo extends javax.swing.JDialog {
             {   st.executeUpdate("INSERT INTO CARGO_HERRAMIENTA VALUES ('"+jLabel8.getText()+"','"+jTable1.getValueAt(i, 0)+"','"+jTable1.getValueAt(i, 5)+"');"); 
             }
             JOptionPane.showMessageDialog(this, "CARGO REGISTRADO CON EXITO");
-            jSpinner1.setValue("1");    limpiarTabla();
+            jSpinner1.setValue(1);    limpiarTabla();
             ok=true;
             dispose();
         }
@@ -403,6 +416,40 @@ public class JD_Cargo extends javax.swing.JDialog {
         return ok;
     }
     
+    public String crearPDF(){
+        JasperReport jasperReport;
+        JasperPrint jasperPrint;
+        String rutaArchivo="";
+        try
+        {
+          URL in=this.getClass().getResource( "/REPORTES/report2.jasper" ); 
+          jasperReport=(JasperReport)JRLoader.loadObject(in);
+          Map parametros = new HashMap(); 
+                parametros.clear(); 
+                parametros.put( "codigoCargo", jLabel8.getText() );
+                parametros.put( "codigoTrabajador", jLabel1.getText().substring(23, 27) );
+                parametros.put( "apellidosNombres", jLabel2.getText().substring(22) );
+          jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, con);
+          URL  in2=this.getClass().getResource( "/REPORTES/");
+          File f = new File(in2.getPath());
+          rutaArchivo=f.getAbsolutePath()+"\\"+jLabel8.getText()+".pdf";
+          JasperExportManager.exportReportToPdfFile( jasperPrint, rutaArchivo);
+          JOptionPane.showMessageDialog(this,"PDF Creado");
+        }
+        catch (JRException ex)
+        {   JOptionPane.showMessageDialog(this,"Error iReport: " + ex.getMessage() );
+        }
+        return rutaArchivo;
+  }
+    
+    void enviarPorCorreo(String rutaArchivo)
+    {   
+    }
+    
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        dispose();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     boolean buscarCodigoEnTabla(String codigo)
     {   boolean encontrado=false;
         for(int i=0; i<jTable1.getRowCount(); i++)
