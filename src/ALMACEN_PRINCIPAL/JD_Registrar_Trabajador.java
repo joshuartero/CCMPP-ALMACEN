@@ -104,6 +104,8 @@ public class JD_Registrar_Trabajador extends javax.swing.JDialog {
 
         jLabel5.setText("Correo");
 
+        jTextField5.setText("logsticaccmpp@gmail.com");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(

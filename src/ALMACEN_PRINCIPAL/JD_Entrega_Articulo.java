@@ -100,9 +100,9 @@ public class JD_Entrega_Articulo extends javax.swing.JDialog {
         message="<h1>NOTA DE SALIDA : "+codigoNS+"</h1>\n"+
                 "<h4>RECIBIDO : "+jComboBox7.getSelectedItem()+"</h4>\n"+                
                 "<h4>---------------------------------</h4>\n"+
-                "<h4>Fecha y Hora : "+getFechaHora()+" "+c.get(Calendar.HOUR_OF_DAY)+":"+c.get(Calendar.MINUTE)+":"+c.get(Calendar.SECOND)+"</h4>\n"+
+                "<h4>Fecha y Hora : "+getFechaHora()+"</h4>\n"+
                 "<h4>---------------------------------</h4>\n";
-        for(int i=0;i<modelo.getRowCount();i++)
+        for(int i=0; i<modelo.getRowCount(); i++)
             message=message+"<h4>"+modelo.getValueAt(i, 0)+" "+modelo.getValueAt(i, 1)+"</h4>\n";
         message+="<h4>---------------------------------</h4>\n"+
         "<h3>ENTREGADO : "+jComboBox6.getSelectedItem()+"</h3>\n"+

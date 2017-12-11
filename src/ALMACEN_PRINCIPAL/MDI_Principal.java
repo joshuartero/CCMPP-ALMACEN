@@ -15,9 +15,9 @@ public class MDI_Principal extends javax.swing.JFrame {
 //        this.setExtendedState(MAXIMIZED_BOTH);
         this.setLocationRelativeTo(this);
         
-        JIF_Lista_Trabajadores jifla=new JIF_Lista_Trabajadores();
-        desktopPane.add(jifla);
-        jifla.setVisible(true);
+        JIF_Lista_Herramientas jiflh=new JIF_Lista_Herramientas();
+        desktopPane.add(jiflh);
+        jiflh.setVisible(true);
     }
 
     @Override
@@ -48,6 +48,7 @@ public class MDI_Principal extends javax.swing.JFrame {
         jMenu7 = new javax.swing.JMenu();
         jMenu8 = new javax.swing.JMenu();
         jMenu9 = new javax.swing.JMenu();
+        jMenuItem5 = new javax.swing.JMenuItem();
         fileMenu = new javax.swing.JMenu();
         openMenuItem = new javax.swing.JMenuItem();
         saveMenuItem = new javax.swing.JMenuItem();
@@ -129,6 +130,15 @@ public class MDI_Principal extends javax.swing.JFrame {
         menuBar.add(jMenu8);
 
         jMenu9.setText("Herramientas");
+
+        jMenuItem5.setText("Lista");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu9.add(jMenuItem5);
+
         menuBar.add(jMenu9);
 
         fileMenu.setMnemonic('f');
@@ -235,6 +245,12 @@ public class MDI_Principal extends javax.swing.JFrame {
         desktopPane.add(jiflc);
         jiflc.setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        JIF_Lista_Herramientas jiflh=new JIF_Lista_Herramientas();
+        desktopPane.add(jiflh);
+        jiflh.setVisible(true);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -297,6 +313,7 @@ public class MDI_Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem openMenuItem;
     private javax.swing.JMenuItem pasteMenuItem;

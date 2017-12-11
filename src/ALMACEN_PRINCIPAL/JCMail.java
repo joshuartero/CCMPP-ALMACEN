@@ -49,7 +49,7 @@ public class JCMail
             InternetAddress addressFrom = new InternetAddress( getFrom() );            
             mimemessage.setFrom(addressFrom);    
 //            JOptionPane.showMessageDialog(null, destinatarios.length);
-            Address []destinos = new Address[destinatarios.length];//Aqui usamos el arreglo de destinatarios
+            Address[] destinos = new Address[destinatarios.length];//Aqui usamos el arreglo de destinatarios
             for(int i=0;i<destinos.length;i++){
                 destinos[i]=new InternetAddress(destinatarios[i]);
             }             
