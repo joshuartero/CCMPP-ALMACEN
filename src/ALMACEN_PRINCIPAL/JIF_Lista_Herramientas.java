@@ -27,16 +27,18 @@ public class JIF_Lista_Herramientas extends javax.swing.JInternalFrame {
     void listarHerramientas()
     {   try
         {   st=con.createStatement();
-            rs=st.executeQuery("SELECT * FROM Herramienta;");
+            rs=st.executeQuery("SELECT DISTINCT(H.CODIGO), H.`HERRAMIENTA`, "
+                + "(SELECT COUNT(*) FROM DETALLEHERRAMIENTA WHERE `CODHERRAMIENTA`=H.`CODIGO`) "
+                + "FROM Herramienta H LEFT JOIN DETALLEHERRAMIENTA DH "
+                + "ON H.`CODIGO`=DH.`CODHERRAMIENTA` ORDER BY H.`CODIGO`;");
             modelo=(DefaultTableModel) jTable1.getModel();
             while(rs.next())
-            {   Object rowData[]={rs.getString(1), rs.getString(2)};
+            {   Object rowData[]={rs.getString(1), rs.getString(2), rs.getString(3)};
                 modelo.addRow(rowData);
             }
         }
         catch(SQLException e)   {   JOptionPane.showMessageDialog(this,"Error debido a: "+e.toString());}
     }
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -81,11 +83,11 @@ public class JIF_Lista_Herramientas extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Codigo", "Herramienta"
+                "Codigo", "Herramienta", "Stock"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -101,6 +103,7 @@ public class JIF_Lista_Herramientas extends javax.swing.JInternalFrame {
         if (jTable1.getColumnModel().getColumnCount() > 0) {
             jTable1.getColumnModel().getColumn(0).setMaxWidth(100);
             jTable1.getColumnModel().getColumn(1).setMaxWidth(400);
+            jTable1.getColumnModel().getColumn(2).setMaxWidth(60);
         }
 
         jButton2.setText("Detalles");
@@ -144,7 +147,7 @@ public class JIF_Lista_Herramientas extends javax.swing.JInternalFrame {
                     .addComponent(jButton1)
                     .addComponent(jButton3)
                     .addComponent(jButton2))
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         pack();
@@ -201,6 +204,7 @@ public class JIF_Lista_Herramientas extends javax.swing.JInternalFrame {
         {   JD_Lista_Detalle_Herramienta jddh=new JD_Lista_Detalle_Herramienta(this,true);
             jddh.jLabel3.setText(jTable1.getValueAt(jTable1.getSelectedRow(), 0)+"");
             jddh.jLabel4.setText(jTable1.getValueAt(jTable1.getSelectedRow(), 1)+"");
+            jddh.listarMarcaModeloSerie();
             jddh.setVisible(true);
         }
         else JOptionPane.showMessageDialog(this, "Porfavor seleccione una Herramienta");
