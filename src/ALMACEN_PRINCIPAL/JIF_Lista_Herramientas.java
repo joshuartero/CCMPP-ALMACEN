@@ -201,11 +201,15 @@ public class JIF_Lista_Herramientas extends javax.swing.JInternalFrame {
     
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         if(jTable1.getSelectedRow()>=0)
-        {   JD_Lista_Detalle_Herramienta jddh=new JD_Lista_Detalle_Herramienta(this,true);
-            jddh.jLabel3.setText(jTable1.getValueAt(jTable1.getSelectedRow(), 0)+"");
-            jddh.jLabel4.setText(jTable1.getValueAt(jTable1.getSelectedRow(), 1)+"");
-            jddh.listarMarcaModeloSerie();
-            jddh.setVisible(true);
+        {   JD_Lista_Detalle_Herramienta jldh=new JD_Lista_Detalle_Herramienta(this,true);
+            jldh.jLabel3.setText(jTable1.getValueAt(jTable1.getSelectedRow(), 0)+"");
+            jldh.jLabel4.setText(jTable1.getValueAt(jTable1.getSelectedRow(), 1)+"");
+            jldh.listarMarcaModeloSerie();
+            jldh.setVisible(true);
+            if(jldh.isVisible()==false)
+            {   limpiarTabla();
+                listarHerramientas();
+            }  
         }
         else JOptionPane.showMessageDialog(this, "Porfavor seleccione una Herramienta");
     }//GEN-LAST:event_jButton2ActionPerformed

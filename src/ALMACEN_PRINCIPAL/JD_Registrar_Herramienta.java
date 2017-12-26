@@ -201,8 +201,7 @@ public class JD_Registrar_Herramienta extends javax.swing.JDialog {
     void registrar()
     {   try
         {   st=con.createStatement();
-//            st.executeUpdate("INSERT INTO Herramienta VALUES ('"+jTextField1.getText()+"','"+jTextField2.getText()+"',"
-//                + "'"+jTextField3.getText()+"','"+jTextField4.getText()+"','"+jTextField5.getText()+"');");
+            st.executeUpdate("INSERT INTO HERRAMIENTA VALUES ('"+jTextField1.getText()+"','"+jTextField2.getText()+"');");
             JOptionPane.showMessageDialog(this, "Herramienta Registrada !");
             dispose();
         }
@@ -212,9 +211,8 @@ public class JD_Registrar_Herramienta extends javax.swing.JDialog {
     void modificar()
     {   try
         {   st=con.createStatement();
-//            st.executeUpdate("Update Herramienta Set Herramienta='"+jTextField2.getText()+"', Marca='"+jTextField3.getText()+"', "
-//                + "Modelo='"+jTextField4.getText()+"',Cantidad='"+jTextField5.getText()+"'"
-//                + "Where Codigo='"+jTextField1.getText()+"'");
+            st.executeUpdate("Update Herramienta Set Herramienta='"+jTextField2.getText()+"' "
+                + "Where Codigo='"+jTextField1.getText()+"'");
             JOptionPane.showMessageDialog(this, "Datos Actualizados !");
             dispose();
         }
